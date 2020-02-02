@@ -93,4 +93,15 @@ def get_features(docs, max_length):
 
 
 train(train_data,dev_data)
+
+def predict(model,dev_data: list):
+        predict_text = dev_data["privacy_policy"]
+        nlp = spacy.load('en_vectors_web_lg')
+        nlp.add_pipe(nlp.create_pipe('sentencizer'))
+        docs, x = postprocess(predict_text, nlp)
+        return model.predict(x)
+
+net = keras.models.load_model('models/model.h5')
+predictions = predict(net, dev_data)
+predictions
     
